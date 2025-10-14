@@ -27,51 +27,56 @@ python gen_prompts_from_coco.py <args...>
 # 0.2 Merge COCO prompts with ChatGPT prompts.
 python data/merge.py <args...>
 
+#Remove error 
+python gen_prompts_from_coco.py \
+  --coco_path ./ \
+  --out_path data/coco_prompts.jsonl \
+  --split train
 
-
-
-
-
-
-# Download COCO 2014 annotations
-wget http://images.cocodataset.org/annotations/annotations_trainval2014.zip
-
-# Unzip just the caption and instance files
-unzip annotations_trainval2014.zip "annotations/captions_val2014.json" "annotations/instances_val2014.json" -d .
 
 # Move them to the current folder
 mv annotations/* .
 rm -r annotations
 
-
-# 0.2 Merge COCO prompts with ChatGPT prompts.
-
 # Before merging clone dreambooth dataset via
 git clone https://github.com/google/dreambooth.git
 
-
+# 0.2 Merge COCO prompts with ChatGPT prompts.
 cd data/dog
 cp prompts-4k.json coco-train.json
 cp prompts-4k.json coco-val.json
 
-cd /workspace/DreamBoothDPO/data
-cp ../chatgpt-1k.json .
+cd/data
 python merge.py --object dog --n_coco_prompts 200
-(There should be two files in dog folder coco-train.json and coco-val.json.
+#(There should be two files in dog folder coco-train.json and coco-val.json.)
 
-# Now prompt preparation is done. 
+#Login
+pip install --upgrade huggingface-hub
+huggingface-cli login
+#then enter the token
 
-# Move to the basel model preparation:
-pip install accelerate
+#pips
+pip install --upgrade "peft>=0.17.0"
+pip install --upgrade pip setuptools wheel
 pip install accelerate diffusers transformers datasets safetensors
-mkdir -p experiments/dreambooth
-# Remove old version
-pip uninstall diffusers -y
+pip install wandb
+# uninstall current release
+pip uninstall -y diffusers || true
+
+# clone and install editable
+git clone https://github.com/huggingface/diffusers.git /workspace/diffusers-src
+cd /workspace/diffusers-src
+pip install -e .
+cd /workspace/DreamBoothDPO
+
+cd /workspace/diffusers-src
+
+# install the example-specific requirements (this file exists in the diffusers repo)
+pip install -r examples/dreambooth/requirements.txt
 
 # Clone source repo
 git clone https://github.com/huggingface/diffusers.git
 cd diffusers
-
 # Install source version
 pip install -e .
 cd ..
