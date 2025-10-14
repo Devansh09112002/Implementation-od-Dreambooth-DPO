@@ -14,16 +14,21 @@ pip install -r requirements.txt
 
 # t resolve error from the torch and python mismatch version:
 pip install torch==2.5.1+cu121 torchvision==0.20.1+cu121 torchaudio==2.5.1+cu121 --index-url https://download.pytorch.org/whl/cu121
+pip install tqdm torch torchvision cython pycocotools
 
-# Training pipeline
 # Prompts preparation
 # 0.0 Download and extract COCO annotations
 wget http://images.cocodataset.org/annotations/annotations_trainval2014.zip
 unzip annotations_trainval2014.zip
 
 # 0.1 Collect prompts from COCO.
-First install several dependencies 
-pip install tqdm torch torchvision cython pycocotools
+python gen_prompts_from_coco.py <args...>
+
+# 0.2 Merge COCO prompts with ChatGPT prompts.
+python data/merge.py <args...>
+
+
+
 
 
 
