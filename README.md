@@ -16,6 +16,16 @@ pip install -r requirements.txt
 pip install torch==2.5.1+cu121 torchvision==0.20.1+cu121 torchaudio==2.5.1+cu121 --index-url https://download.pytorch.org/whl/cu121
 pip install tqdm torch torchvision cython pycocotools
 
+# Download COCO 2014 annotations
+wget http://images.cocodataset.org/annotations/annotations_trainval2014.zip
+
+# Unzip just the caption and instance files
+unzip annotations_trainval2014.zip "annotations/captions_val2014.json" "annotations/instances_val2014.json" -d .
+
+# Move them to the current folder
+mv annotations/* .
+rm -r annotations
+
 # Prompts preparation
 # 0.0 Download and extract COCO annotations
 wget http://images.cocodataset.org/annotations/annotations_trainval2014.zip
@@ -82,13 +92,7 @@ pip install -e .
 cd ..
 
 
-accelerate config
 
-# Activate your environment if not already
-source /venv/dbdpo/bin/activate   # or your correct path
-
-# Install wandb
-pip install wandb
  #And then do some changes in script/train_dreambooth.sh file :
 1. source .vev/bin/activate --> source /venv/dbdpo/bin/activate
 2. --instance_data_dir dreambooth/dataset/dog6 \
