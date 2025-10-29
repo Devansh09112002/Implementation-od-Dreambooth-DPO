@@ -1,0 +1,149 @@
+    1  git clone https://github.com/ControlGenAI/DreamBoothDPO.git
+    2  cd DreamBoothDPO
+    3  conda create -n dbdpo python=3.11
+    4  conda activate dbdpo
+    5  # Install the dependencies in your environment:
+    6  pip install -r requirements.txt
+    7  # t resolve error from the torch and python mismatch version:
+    8  pip install torch==2.5.1+cu121 torchvision==0.20.1+cu121 torchaudio==2.5.1+cu121 --index-url https://download.pytorch.org/whl/cu121
+    9  wget http://images.cocodataset.org/annotations/annotations_trainval2014.zip
+   10  # Unzip just the caption and instance files
+   11  unzip annotations_trainval2014.zip "annotations/captions_val2014.json" "annotations/instances_val2014.json" -d .
+   12  mv annotations/* .
+   13  rm -r annotations
+   14  # 0.1 Collect prompts from COCO.
+   15  python gen_prompts_from_coco.py <args...>
+   16  # 0.2 Merge COCO prompts with ChatGPT prompts.
+   17  python data/merge.py <args...>
+   18  python gen_prompts_from_coco.py   --coco_path ./   --out_path data/coco_prompts.jsonl   --split train
+   19  pip install tqdm
+   20  python gen_prompts_from_coco.py   --coco_path ./   --out_path data/coco_prompts.jsonl   --split train
+   21  pip install pycocotools
+   22  python gen_prompts_from_coco.py   --coco_path ./   --out_path data/coco_prompts.jsonl   --split train
+   23  wget http://images.cocodataset.org/annotations/annotations_trainval2014.zip
+   24  # Unzip just the caption and instance files
+   25  unzip annotations_trainval2014.zip "annotations/captions_val2014.json" "annotations/instances_val2014.json" -d .
+   26  # Move them to the current folder
+   27  mv annotations/* .
+   28  rm -r annotations
+   29  wget http://images.cocodataset.org/annotations/annotations_trainval2014.zip
+   30  # Unzip just the caption and instance files
+   31  unzip annotations_trainval2014.zip "annotations/captions_val2014.json" "annotations/instances_val2014.json" -d .
+   32  # Move them to the current folder
+   33  mv annotations/* .
+   34  rm -r annotationswget http://images.cocodataset.org/annotations/annotations_trainval2014.zip
+   35  # Unzip just the caption and instance files
+   36  unzip annotations_trainval2014.zip "annotations/captions_val2014.json" "annotations/instances_val2014.json" -d .
+   37  # Move them to the current folder
+   38  mv annotations/* .
+   39  rm -r annotations
+   40  mv annotations/* .
+   41  rm -r annotations
+   42  python gen_prompts_from_coco.py   --coco_path ./   --out_path data/coco_prompts.jsonl   --split train
+   43  mkdir -p annotations
+   44  # Download COCO 2014 annotations
+   45  wget http://images.cocodataset.org/annotations/annotations_trainval2014.zip
+   46  # Unzip just the caption and instance files
+   47  unzip annotations_trainval2014.zip "annotations/captions_val2014.json" "annotations/instances_val2014.json" -d .
+   48  mv annotations/* .
+   49  rm -r annotations
+   50  # 1. Make the annotations folder
+   51  mkdir -p annotations
+   52  # 2. Unzip your COCO annotation zip file into it
+   53  unzip annotations_trainval2014.zip -d annotations
+   54  python gen_prompts_from_coco.py   --coco_path ./   --out_path data/coco_prompts.jsonl   --split train
+   55  ls annotations | grep captions
+   56  python gen_prompts_from_coco.py   --coco_path ./   --out_path data/coco_prompts.jsonl   --split train
+   57  # show current layout (for sanity)
+   58  ls -la annotations
+   59  ls -la annotations/annotations
+   60  # move the files up one level if they exist in the nested folder
+   61  mv annotations/annotations/* annotations/
+   62  # remove the now-empty nested folder (only if empty)
+   63  rmdir annotations/annotations 2>/dev/null || echo "nested folder not empty or already removed"
+   64  # verify
+   65  ls -la annotations | grep captions
+   66  python - <<'PY'
+import os,sys
+p='annotations/captions_train2014.json'
+print(p, '->', os.path.exists(p))
+PY
+
+   67  python gen_prompts_from_coco.py   --coco_path ./   --out_path data/coco_prompts.jsonl   --split train
+   68  git clone https://github.com/google/dreambooth.git
+   69  cd data/dog
+   70  cp prompts-4k.json coco-train.json
+   71  cp prompts-4k.json coco-val.json
+   72  cd ..
+   73  python merge.py --object dog --n_coco_prompts 200
+   74  pip install --upgrade huggingface-hub
+   75  huggingface-cli login
+   76  cd ..
+   77  pip install --upgrade huggingface-hub
+   78  huggingface-cli login
+   79  pip install -U huggingface_hub
+   80  huggingface-cli --version
+   81  python -m huggingface_hub login
+   82  #Login
+   83  pip install --upgrade huggingface-hub
+   84  huggingface-cli login
+   85  #then enter the token
+   86  python -m huggingface_hub login
+   87  huggingface-cli login
+   88  pip install huggingface_hub --upgrade
+   89  huggingface-cli login
+   90  python -m huggingface_hub.cli login
+   91  /venv/dbdpo/bin/huggingface-cli login
+   92  source /venv/dbdpo/bin/activate
+   93  which huggingface-cli
+   94  huggingface-cli login
+   95  /venv/dbdpo/bin/huggingface-cli login
+   96  python - <<'PY'
+from huggingface_hub import login
+login()
+PY
+
+   97  python - <<'PY'
+from huggingface_hub import login
+login()
+PY
+
+   98  source /venv/dbdpo/bin/activate
+   99  echo "SHELL PATH: $PATH"
+  100  which python
+  101  which pip
+  102  ls -l /venv/dbdpo/bin | grep -i huggingface || true
+  103  /venv/dbdpo/bin/python -m pip show huggingface_hub || true
+  104  /venv/dbdpo/bin/huggingface-cli login
+  105  /venv/dbdpo/huggingface-cli login
+  106  pip install --upgrade "peft>=0.17.0"
+  107  pip install --upgrade pip setuptools wheel
+  108  pip install accelerate diffusers transformers datasets safetensors
+  109  pip install wandb
+  110  # uninstall current release
+  111  pip uninstall -y diffusers || true
+  112  git clone https://github.com/huggingface/diffusers.git /workspace/diffusers-src
+  113  cd /workspace/diffusers-src
+  114  pip install -e .
+  115  cd /workspace/DreamBoothDPO
+  116  cd /workspace/diffusers-src
+  117  pip install -r examples/dreambooth/requirements.txt
+  118  git clone https://github.com/huggingface/diffusers.git
+  119  cd diffusers
+  120  # Install source version
+  121  pip install -e .
+  122  cd ..
+  123  cd DreamBoothDPO
+  124  bash scripts/train_dreambooth.sh
+  125  accelerate config
+  126  bash scripts/train_dreambooth.sh
+  127  git clone https://github.com/huggingface/diffusers.git /workspace/diffusers-src
+  128  git clone https://github.com/huggingface/diffusers.git
+  129  pip install -r examples/dreambooth/requirements.txt
+  130  bash scripts/train_dreambooth.sh
+  131  mkdir -p experiments/dreambooth
+  132  bash scripts/train_dreambooth.sh
+  133  pip install -U "peft>=0.17.0"
+  134  bash scripts/train_dreambooth.sh
+  135  mkdir -p progress
+  136  history > progress/terminal_commands.txt
