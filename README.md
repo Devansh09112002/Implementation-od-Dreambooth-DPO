@@ -15,6 +15,8 @@ pip install -r requirements.txt
 # t resolve error from the torch and python mismatch version:
 pip install torch==2.5.1+cu121 torchvision==0.20.1+cu121 torchaudio==2.5.1+cu121 --index-url https://download.pytorch.org/whl/cu121
 pip install tqdm torch torchvision cython pycocotools
+-------------------------------------------------------------------------------------
+mkdir -p annotations
 
 # Download COCO 2014 annotations
 wget http://images.cocodataset.org/annotations/annotations_trainval2014.zip
@@ -26,27 +28,37 @@ unzip annotations_trainval2014.zip "annotations/captions_val2014.json" "annotati
 mv annotations/* .
 rm -r annotations
 
-# Prompts preparation
-# 0.0 Download and extract COCO annotations
-wget http://images.cocodataset.org/annotations/annotations_trainval2014.zip
-unzip annotations_trainval2014.zip
+pip install tqdm 
+pip install pycocotools
 
-# 0.1 Collect prompts from COCO.
-python gen_prompts_from_coco.py <args...>
+# show current layout (for sanity)
+ls -la annotations
+ls -la annotations/annotations
 
-# 0.2 Merge COCO prompts with ChatGPT prompts.
-python data/merge.py <args...>
+# move the files up one level if they exist in the nested folder
+mv annotations/annotations/* annotations/
 
-#Remove error 
+# remove the now-empty nested folder (only if empty)
+rmdir annotations/annotations 2>/dev/null || echo "nested folder not empty or already removed"
+
+# verify
+ls -la annotations | grep captions
+
+
+python - <<'PY'
+import os,sys
+p='annotations/captions_train2014.json'
+print(p, '->', os.path.exists(p))
+PY
+
+
 python gen_prompts_from_coco.py \
   --coco_path ./ \
   --out_path data/coco_prompts.jsonl \
   --split train
+-----------------------------------------------------------------
 
 
-# Move them to the current folder
-mv annotations/* .
-rm -r annotations
 
 # Before merging clone dreambooth dataset via
 git clone https://github.com/google/dreambooth.git
